@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YachtWorld - Global Marine Marketplace</title>
+    <title>Nautilus Waves - Mercado Marino Global</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* CSS basado en el diseño proporcionado */
@@ -31,7 +31,6 @@
             
             --radius-small: 4px;
             --radius-medium: 8px;
-            
             --shadow-z1: 0px 2px 4px rgba(0, 0, 0, 0.1);
             --shadow-z2: 0px 4px 8px rgba(0, 0, 0, 0.15);
             --shadow-z3: 0px 6px 12px rgba(0, 0, 0, 0.2);
@@ -74,23 +73,34 @@
             height: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative; /* Needed for absolute positioning of mobile nav */
         }
         
         .logo {
             height: 40px;
+            display: flex;
+            align-items: center;
+            color: var(--surface);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            z-index: 101; /* Keep logo above mobile menu */
+        }
+
+        .logo svg {
+            height: 30px;
+            width: 30px;
+            margin-right: 8px;
+            fill: var(--surface);
         }
         
-        .logo img {
-            height: 100%;
-        }
-        
-        nav ul {
+        nav.main-nav ul.nav-links {
             display: flex;
             list-style: none;
             gap: var(--spacing-large);
         }
         
-        nav a {
+        nav.main-nav a {
             color: var(--surface);
             text-decoration: none;
             font-size: 0.9rem;
@@ -98,7 +108,7 @@
             transition: color 0.3s;
         }
         
-        nav a:hover {
+        nav.main-nav a:hover {
             color: var(--secondary);
         }
         
@@ -135,11 +145,20 @@
         .btn-outline:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
+
+        /* Hamburger menu icon */
+        .hamburger-menu {
+            display: none; /* Hidden by default on desktop */
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--surface);
+            z-index: 101; /* Keep hamburger icon above mobile menu */
+        }
         
         /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0, 51, 102, 0.8), rgba(0, 51, 102, 0.8)), 
-                        url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+                        url('https://images.unsplash.com/photo-1549440624-94c65360a7e6?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover;
             background-position: center;
             color: var(--surface);
@@ -367,11 +386,6 @@
         .listing-detail i {
             color: var(--accent);
             margin-bottom: 4px;
-        }
-        
-        .listing-actions {
-            display: flex;
-            justify-content: space-between;
         }
         
         .btn-secondary {
@@ -807,7 +821,7 @@
             right: var(--spacing-large);
             width: 60px;
             height: 60px;
-            background-color: var(--accent);
+            background-color: var(--accent); /* Changed to accent for better visibility as anchor */
             color: var(--surface);
             border-radius: 50%;
             display: flex;
@@ -830,580 +844,586 @@
             }
             
             .header-container {
+                flex-wrap: nowrap; /* Prevent wrapping of logo/hamburger */
+                justify-content: space-between;
+                padding: 0 var(--spacing-large); /* Keep padding consistent */
+            }
+
+            nav.main-nav {
+                display: none; /* Hide nav by default on mobile */
+                position: absolute;
+                top: 64px; /* Below header */
+                left: 0;
+                width: 100%;
+                background-color: var(--primary); /* Same as header */
+                box-shadow: var(--shadow-z2);
                 flex-direction: column;
-                height: auto;
+                z-index: 90; /* Below logo/hamburger */
                 padding: var(--spacing-medium) 0;
             }
-            
-            nav ul {
+
+            nav.main-nav.active {
+                display: flex; /* Show nav when active */
+            }
+
+            nav.main-nav ul.nav-links {
                 flex-direction: column;
                 gap: var(--spacing-small);
+                padding: var(--spacing-small) 0;
+                width: 100%;
+            }
+
+            nav.main-nav ul.nav-links li {
                 text-align: center;
-                margin: var(--spacing-medium) 0;
+                padding: var(--spacing-small) 0;
             }
             
+            nav.main-nav ul.nav-links a {
+                padding: var(--spacing-small) var(--spacing-large); /* Add horizontal padding for touch targets */
+                display: block; /* Make links full width of li */
+            }
+
             .header-buttons {
-                margin-top: var(--spacing-medium);
+                display: none; /* Hide buttons on mobile when hamburger is active */
+            }
+
+            .hamburger-menu {
+                display: block; /* Show hamburger on mobile */
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-about, .footer-links, .footer-contact {
+                margin-bottom: var(--spacing-large);
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+
+            /* Adjust chat bubble for smaller screens */
+            .chat-bubble {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: var(--spacing-medium); /* Slightly less offset from bottom */
+                right: var(--spacing-medium); /* Slightly less offset from right */
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="header-container">
-            <div class="logo">
-                <img src="https://via.placeholder.com/150x40?text=YachtWorld" alt="YachtWorld Logo">
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#">Buy</a></li>
-                    <li><a href="#">Sell</a></li>
-                    <li><a href="#">Rent</a></li>
-                    <li><a href="#">Auctions</a></li>
-                    <li><a href="#">Marine Store</a></li>
-                    <li><a href="#">About</a></li>
+            <a href="#" class="logo">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM10.99 6h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zm0 4h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zm0 4h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zM12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                    <path d="M12 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <circle cx="12" cy="12" r="2"/>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8z"/>
+                    <path d="M12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                    <path d="M12 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                    <path d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                    <path d="M12 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 20c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 22c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    <path d="M12 24c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8z"/>
+                    <path d="M12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                    <path d="M12 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                    <path d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                    <path d="M12 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 20c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                    <path d="M12 22c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    <path d="M12 24c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                </svg>
+                Nautilus Waves
+            </a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#">Comprar</a></li>
+                    <li><a href="#">Vender</a></li>
+                    <li><a href="#">Alquilar</a></li>
+                    <li><a href="#">Subastas</a></li>
+                    <li><a href="#">Tienda Marina</a></li>
+                    <li><a href="#">Nosotros</a></li>
                 </ul>
             </nav>
             <div class="header-buttons">
-                <button class="btn btn-outline">Log In</button>
-                <button class="btn btn-primary">Sign Up</button>
+                <button class="btn btn-outline">Iniciar Sesión</button>
+                <button class="btn btn-primary">Registrarse</button>
+            </div>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
     
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Global Marketplace for Yachts & Boats</h1>
-            <p>Buy, sell, or rent luxury yachts, boats, and marine equipment worldwide. Connecting buyers and sellers in the marine industry since 2023.</p>
+            <h1>Mercado Global de Yates y Barcos</h1>
+            <p>Compre, venda o alquile yates de lujo, barcos y equipos marinos en todo el mundo. Conectando compradores y vendedores en la industria marina desde 2023.</p>
             
-            <!-- Search Bar -->
             <div class="search-container">
                 <div class="search-tabs">
-                    <div class="search-tab active">Buy</div>
-                    <div class="search-tab">Rent</div>
-                    <div class="search-tab">Sell</div>
-                    <div class="search-tab">Auctions</div>
+                    <div class="search-tab active">Comprar</div>
+                    <div class="search-tab">Alquilar</div>
+                    <div class="search-tab">Vender</div>
+                    <div class="search-tab">Subastas</div>
                 </div>
                 <form class="search-form">
                     <div class="search-group">
-                        <label for="type">Type</label>
+                        <label for="type">Tipo</label>
                         <select id="type">
-                            <option value="">All Types</option>
-                            <option value="yacht">Yacht</option>
-                            <option value="sailboat">Sailboat</option>
-                            <option value="motorboat">Motorboat</option>
-                            <option value="catamaran">Catamaran</option>
-                            <option value="jetski">Jet Ski</option>
+                            <option value="">Todos los Tipos</option>
+                            <option value="yacht">Yate</option>
+                            <option value="sailboat">Velero</option>
+                            <option value="motorboat">Lancha</option>
+                            <option value="catamaran">Catamarán</option>
+                            <option value="jetski">Moto Acuática</option>
                         </select>
                     </div>
                     <div class="search-group">
-                        <label for="location">Location</label>
+                        <label for="location">Ubicación</label>
                         <select id="location">
-                            <option value="">Anywhere</option>
-                            <option value="mediterranean">Mediterranean</option>
-                            <option value="caribbean">Caribbean</option>
-                            <option value="usa">USA</option>
-                            <option value="europe">Europe</option>
+                            <option value="">Cualquier Lugar</option>
+                            <option value="mediterranean">Mediterráneo</option>
+                            <option value="caribbean">Caribe</option>
+                            <option value="usa">EE.UU.</option>
+                            <option value="europe">Europa</option>
                             <option value="asia">Asia</option>
                         </select>
                     </div>
                     <div class="search-group">
-                        <label for="length">Length (ft)</label>
+                        <label for="length">Eslora (pies)</label>
                         <select id="length">
-                            <option value="">Any Length</option>
-                            <option value="20-30">20-30 ft</option>
-                            <option value="30-50">30-50 ft</option>
-                            <option value="50-80">50-80 ft</option>
-                            <option value="80+">80+ ft</option>
+                            <option value="">Cualquier Eslora</option>
+                            <option value="20-30">20-30 pies</option>
+                            <option value="30-50">3</option>
                         </select>
                     </div>
-                    <div class="search-group">
-                        <label for="price">Price Range</label>
-                        <select id="price">
-                            <option value="">Any Price</option>
-                            <option value="0-100000">Under $100K</option>
-                            <option value="100000-500000">$100K-$500K</option>
-                            <option value="500000-1000000">$500K-$1M</option>
-                            <option value="1000000+">$1M+</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="search-button">Search Yachts</button>
+                    <button type="submit" class="btn search-button">Buscar</button>
                 </form>
             </div>
         </div>
     </section>
-    
-    <!-- Categories Section -->
-    <section class="categories container">
-        <h2 class="section-title">Browse by Category</h2>
-        <div class="categories-grid">
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1518544866330-95a2bf92a4d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');"></div>
-                <div class="category-content">
-                    <h3>Motor Yachts</h3>
-                    <p>Luxury motor yachts for sale and charter</p>
-                    <button class="btn-secondary">Browse</button>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');"></div>
-                <div class="category-content">
-                    <h3>Sailboats</h3>
-                    <p>Monohulls and multihulls for all sailors</p>
-                    <button class="btn-secondary">Browse</button>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1508000751-9b779650b5de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');"></div>
-                <div class="category-content">
-                    <h3>Catamarans</h3>
-                    <p>Spacious and stable multihull vessels</p>
-                    <button class="btn-secondary">Browse</button>
-                </div>
-            </div>
-            <div class="category-card">
-                <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');"></div>
-                <div class="category-content">
-                    <h3>Superyachts</h3>
-                    <p>Luxury vessels over 80 feet</p>
-                    <button class="btn-secondary">Browse</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Featured Listings -->
-    <section class="featured container">
-        <div class="featured-header">
-            <h2 class="section-title">Featured Listings</h2>
-            <a href="#" class="view-all">View All</a>
-        </div>
-        <div class="listings-grid">
-            <div class="listing-card">
-                <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1518544866330-95a2bf92a4d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <span class="listing-tag">For Sale</span>
-                </div>
-                <div class="listing-content">
-                    <div class="listing-price">$1,250,000</div>
-                    <h3 class="listing-title">2019 Sunseeker Predator 65</h3>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> Miami, Florida
-                    </div>
-                    <div class="listing-details">
-                        <div class="listing-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>65 ft</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-bed"></i>
-                            <span>4 cabins</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>35 knots</span>
-                        </div>
-                    </div>
-                    <div class="listing-actions">
-                        <button class="btn-secondary">View Details</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Nuestras Categorías de Barcos</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1570713783964-16a827059c25?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                    <div class="category-content">
+                        <h3>Yates de Lujo</h3>
+                        <p>Explore nuestra exclusiva selección de yates de lujo de clase mundial.</p>
+                        <a href="#" class="btn btn-secondary">Ver Yates</a>
                     </div>
                 </div>
-            </div>
-            <div class="listing-card">
-                <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1534258936925-c58bed479fcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <span class="listing-tag">For Rent</span>
-                </div>
-                <div class="listing-content">
-                    <div class="listing-price">$5,000/week</div>
-                    <h3 class="listing-title">Lagoon 450F Catamaran</h3>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> Nassau, Bahamas
-                    </div>
-                    <div class="listing-details">
-                        <div class="listing-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>45 ft</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-bed"></i>
-                            <span>6 cabins</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-sailboat"></i>
-                            <span>Sail</span>
-                        </div>
-                    </div>
-                    <div class="listing-actions">
-                        <button class="btn-secondary">View Details</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1627976901844-48f88647d7c6?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                    <div class="category-content">
+                        <h3>Veleros</h3>
+                        <p>Abrace la aventura con nuestra amplia gama de veleros.</p>
+                        <a href="#" class="btn btn-secondary">Ver Veleros</a>
                     </div>
                 </div>
-            </div>
-            <div class="listing-card">
-                <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <span class="listing-tag">For Sale</span>
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1586524102283-e18e807604f0?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                    <div class="category-content">
+                        <h3>Lanchas y Pesca</h3>
+                        <p>Encuentre la lancha o barco de pesca perfecto para sus necesidades.</p>
+                        <a href="#" class="btn btn-secondary">Ver Lanchas</a>
+                    </div>
                 </div>
-                <div class="listing-content">
-                    <div class="listing-price">$12,750,000</div>
-                    <h3 class="listing-title">2022 Azimut Grande 35M</h3>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> Monaco
-                    </div>
-                    <div class="listing-details">
-                        <div class="listing-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>115 ft</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-bed"></i>
-                            <span>5 cabins</span>
-                        </div>
-                        <div class="listing-detail">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>24 knots</span>
-                        </div>
-                    </div>
-                    <div class="listing-actions">
-                        <button class="btn-secondary">View Details</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                <div class="category-card">
+                    <div class="category-image" style="background-image: url('https://images.unsplash.com/photo-1594964645228-2d8c36293375?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+                    <div class="category-content">
+                        <h3>Motos Acuáticas</h3>
+                        <p>Experimente la emoción con nuestra colección de motos acuáticas.</p>
+                        <a href="#" class="btn btn-secondary">Ver Motos Acuáticas</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Auctions Section -->
-    <section class="auctions container">
-        <h2 class="section-title">Live Auctions</h2>
-        <div class="listings-grid">
-            <div class="auction-card">
-                <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1508000751-9b779650b5de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <div class="auction-timer">Ends in 2d 14h 32m</div>
+
+    <section class="featured">
+        <div class="container">
+            <div class="featured-header">
+                <h2 class="section-title">Anuncios Destacados</h2>
+                <a href="#" class="view-all">Ver todos los anuncios <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="listings-grid">
+                <div class="listing-card">
+                    <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1599643198642-1234907d4b47?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="listing-tag">Nuevo</span>
+                    </div>
+                    <div class="listing-content">
+                        <span class="listing-price">$1,250,000</span>
+                        <h3 class="listing-title">Yate de Lujo Azimut 78 Flybridge</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Miami, FL, EE.UU.</p>
+                        <div class="listing-details">
+                            <div class="listing-detail">
+                                <i class="fas fa-ruler-horizontal"></i>
+                                <span>78 pies</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-ship"></i>
+                                <span>2022</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-engine-v"></i>
+                                <span>1200 CV</span>
+                            </div>
+                        </div>
+                        <div class="listing-actions">
+                            <button class="btn btn-primary">Contactar al Vendedor</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="auction-content">
-                    <h3>2017 Fountaine Pajot Helia 44</h3>
-                    <div class="auction-price">
-                        <div class="current-bid">$325,000</div>
-                        <div class="bids-count">12 bids</div>
+                <div class="listing-card">
+                    <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1599643198642-1234907d4b47?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="listing-tag">Destacado</span>
                     </div>
-                    <div class="auction-progress">
-                        <div class="auction-progress-bar"></div>
+                    <div class="listing-content">
+                        <span class="listing-price">$750,000</span>
+                        <h3 class="listing-title">Velero de Crucero Beneteau Oceanis 51.1</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Palma de Mallorca, España</p>
+                        <div class="listing-details">
+                            <div class="listing-detail">
+                                <i class="fas fa-ruler-horizontal"></i>
+                                <span>51 pies</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-ship"></i>
+                                <span>2020</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-engine-v"></i>
+                                <span>110 CV</span>
+                            </div>
+                        </div>
+                        <div class="listing-actions">
+                            <button class="btn btn-primary">Contactar al Vendedor</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> Fort Lauderdale, FL
+                </div>
+                <div class="listing-card">
+                    <div class="listing-image" style="background-image: url('https://images.unsplash.com/photo-1599643198642-1234907d4b47?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="listing-tag">Venta Rápida</span>
                     </div>
-                    <div class="auction-actions">
-                        <button class="btn-bid">Place Bid</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    <div class="listing-content">
+                        <span class="listing-price">$280,000</span>
+                        <h3 class="listing-title">Lancha Rápida Boston Whaler 320 Outrage</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Cancún, México</p>
+                        <div class="listing-details">
+                            <div class="listing-detail">
+                                <i class="fas fa-ruler-horizontal"></i>
+                                <span>32 pies</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-ship"></i>
+                                <span>2019</span>
+                            </div>
+                            <div class="listing-detail">
+                                <i class="fas fa-engine-v"></i>
+                                <span>600 CV</span>
+                            </div>
+                        </div>
+                        <div class="listing-actions">
+                            <button class="btn btn-primary">Contactar al Vendedor</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="auction-card">
-                <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <div class="auction-timer">Ends in 1d 8h 15m</div>
-                </div>
-                <div class="auction-content">
-                    <h3>2008 Sea Ray 420 Sundancer</h3>
-                    <div class="auction-price">
-                        <div class="current-bid">$145,750</div>
-                        <div class="bids-count">7 bids</div>
-                    </div>
-                    <div class="auction-progress">
-                        <div class="auction-progress-bar" style="width: 40%;"></div>
-                    </div>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> San Diego, CA
-                    </div>
-                    <div class="auction-actions">
-                        <button class="btn-bid">Place Bid</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
-                    </div>
-                </div>
+        </div>
+    </section>
+
+    <section class="auctions">
+        <div class="container">
+            <div class="featured-header">
+                <h2 class="section-title">Subastas en Vivo</h2>
+                <a href="#" class="view-all">Ver todas las subastas <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="auction-card">
-                <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-                    <div class="auction-timer">Ends in 3d 5h 47m</div>
+            <div class="listings-grid">
+                <div class="auction-card">
+                    <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1605333140880-b23023e3b5e7?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="auction-timer"><i class="far fa-clock"></i> 02:15:30 restantes</span>
+                    </div>
+                    <div class="auction-content">
+                        <h3 class="listing-title">Catamarán Lagoon 42</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Atenas, Grecia</p>
+                        <div class="auction-price">
+                            <span class="current-bid">Oferta Actual: $620,000</span>
+                            <span class="bids-count">18 Ofertas</span>
+                        </div>
+                        <div class="auction-progress">
+                            <div class="auction-progress-bar" style="width: 80%;"></div>
+                        </div>
+                        <div class="auction-actions">
+                            <button class="btn btn-bid">Hacer Oferta</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="auction-content">
-                    <h3>2020 Boston Whaler 380 Outrage</h3>
-                    <div class="auction-price">
-                        <div class="current-bid">$289,000</div>
-                        <div class="bids-count">9 bids</div>
+                <div class="auction-card">
+                    <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1616719717088-ce99787a2d1d?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="auction-timer"><i class="far fa-clock"></i> 01:05:45 restantes</span>
                     </div>
-                    <div class="auction-progress">
-                        <div class="auction-progress-bar" style="width: 75%;"></div>
+                    <div class="auction-content">
+                        <h3 class="listing-title">Moto Acuática Sea-Doo RXT-X 300</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Gold Coast, Australia</p>
+                        <div class="auction-price">
+                            <span class="current-bid">Oferta Actual: $18,500</span>
+                            <span class="bids-count">5 Ofertas</span>
+                        </div>
+                        <div class="auction-progress">
+                            <div class="auction-progress-bar" style="width: 45%;"></div>
+                        </div>
+                        <div class="auction-actions">
+                            <button class="btn btn-bid">Hacer Oferta</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
-                    <div class="listing-location">
-                        <i class="fas fa-map-marker-alt"></i> Newport, RI
+                </div>
+                <div class="auction-card">
+                    <div class="auction-image" style="background-image: url('https://images.unsplash.com/photo-1599643198642-1234907d4b47?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                        <span class="auction-timer"><i class="far fa-clock"></i> 00:30:10 restantes</span>
                     </div>
-                    <div class="auction-actions">
-                        <button class="btn-bid">Place Bid</button>
-                        <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                    <div class="auction-content">
+                        <h3 class="listing-title">Lancha Consola Central Grady-White 330 Express</h3>
+                        <p class="listing-location"><i class="fas fa-map-marker-alt"></i> Key West, FL, EE.UU.</p>
+                        <div class="auction-price">
+                            <span class="current-bid">Oferta Actual: $310,000</span>
+                            <span class="bids-count">12 Ofertas</span>
+                        </div>
+                        <div class="auction-progress">
+                            <div class="auction-progress-bar" style="width: 70%;"></div>
+                        </div>
+                        <div class="auction-actions">
+                            <button class="btn btn-bid">Hacer Oferta</button>
+                            <button class="favorite-btn"><i class="far fa-heart"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- How It Works -->
-    <section class="how-it-works container">
-        <h2 class="section-title">How YachtWorld Works</h2>
-        <p>Buying, selling or renting a boat has never been easier</p>
-        
-        <div class="steps">
-            <div class="step">
-                <div class="step-icon">
-                    <i class="fas fa-search"></i>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Cómo Funciona</h2>
+            <p>Comience su viaje en Nautilus Waves en solo unos pocos pasos sencillos.</p>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+                    <h3>1. Regístrese</h3>
+                    <p>Cree su cuenta gratuita en minutos y comience a explorar.</p>
                 </div>
-                <h3>Find Your Boat</h3>
-                <p>Browse thousands of listings or use our advanced search to find your perfect vessel.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon">
-                    <i class="fas fa-handshake"></i>
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-search-dollar"></i></div>
+                    <h3>2. Explore Anuncios</h3>
+                    <p>Busque entre miles de yates y barcos disponibles para venta o alquiler.</p>
                 </div>
-                <h3>Connect</h3>
-                <p>Contact sellers or charter companies directly through our secure messaging system.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon">
-                    <i class="fas fa-file-signature"></i>
+                <div class="step">
+                    <div class="step-icon"><i class="fas fa-handshake"></i></div>
+                    <h3>3. Conéctese</h3>
+                    <p>Póngase en contacto con vendedores o compradores y cierre el trato.</p>
                 </div>
-                <h3>Complete Transaction</h3>
-                <p>Use our escrow service for secure payments and professional documentation assistance.</p>
-            </div>
-            <div class="step">
-                <div class="step-icon">
-                    <i class="fas fa-anchor"></i>
-                </div>
-                <h3>Enjoy</h3>
-                <p>Take ownership or begin your charter adventure with confidence.</p>
             </div>
         </div>
     </section>
-    
-    <!-- Testimonials -->
+
     <section class="testimonials">
         <div class="container">
-            <h2 class="section-title">What Our Clients Say</h2>
+            <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "Found my dream yacht through YachtWorld. The process was smooth and the seller was professional. Highly recommend!"
-                    </div>
+                    <p class="testimonial-text">"¡Increíble plataforma! Encontré el yate de mis sueños en solo unas pocas semanas. La interfaz es muy fácil de usar y el equipo de soporte fue de gran ayuda."</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                        <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
                         <div class="author-info">
-                            <h4>Michael Johnson</h4>
-                            <p>Yacht Owner, Miami</p>
+                            <h4>Juan Pérez</h4>
+                            <p>Comprador de Yates</p>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "As a charter company, YachtWorld has helped us connect with clients worldwide. Our bookings have increased by 40% since joining."
-                    </div>
+                    <p class="testimonial-text">"Vender mi velero a través de Nautilus Waves fue una experiencia sin complicaciones. Recibí múltiples ofertas y vendí mi barco a un precio excelente."</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                        <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29329?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
                         <div class="author-info">
-                            <h4>Sarah Williams</h4>
-                            <p>Charter Company Owner, Greece</p>
+                            <h4>María García</h4>
+                            <p>Vendedora de Veleros</p>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "The auction feature helped me sell my boat quickly and at a great price. The platform is easy to use and the support team is excellent."
-                    </div>
+                    <p class="testimonial-text">"Las subastas en vivo son fantásticas. Pude pujar por un catamarán que había estado buscando durante meses y lo conseguí a un precio muy competitivo. ¡Recomendado!"</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar" style="background-image: url('https://randomuser.me/api/portraits/men/75.jpg');"></div>
+                        <div class="author-avatar" style="background-image: url('https://images.unsplash.com/photo-1527980965255-d3b74590341f?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
                         <div class="author-info">
-                            <h4>Robert Chen</h4>
-                            <p>Boat Seller, Singapore</p>
+                            <h4>Carlos Rodríguez</h4>
+                            <p>Participante en Subastas</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- Pricing Plans -->
-    <section class="pricing container">
-        <h2 class="section-title">Pricing Plans</h2>
-        <p>Choose the right plan for your needs</p>
-        
-        <div class="pricing-tabs">
-            <div class="pricing-tab active">For Buyers</div>
-            <div class="pricing-tab">For Sellers</div>
-            <div class="pricing-tab">For Charter Companies</div>
-        </div>
-        
-        <div class="plans">
-            <div class="plan">
-                <div class="plan-name">Basic</div>
-                <div class="plan-price">$0<span>/month</span></div>
-                <div class="plan-features">
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Access to all listings</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Basic search filters</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Contact 5 sellers/month</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-times"></i>
-                        <span>Priority customer support</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-times"></i>
-                        <span>Market analysis reports</span>
-                    </div>
-                </div>
-                <button class="btn-secondary">Get Started</button>
+
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Planes de Precios Flexibles</h2>
+            <div class="pricing-tabs">
+                <div class="pricing-tab active">Mensual</div>
+                <div class="pricing-tab">Anual</div>
             </div>
-            <div class="plan popular">
-                <div class="popular-tag">Most Popular</div>
-                <div class="plan-name">Premium</div>
-                <div class="plan-price">$29<span>/month</span></div>
-                <div class="plan-features">
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Everything in Basic</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Advanced search filters</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Unlimited seller contacts</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Priority customer support</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Basic market reports</span>
-                    </div>
+            <div class="plans">
+                <div class="plan">
+                    <h3 class="plan-name">Básico</h3>
+                    <p class="plan-price">$0<span>/mes</span></p>
+                    <ul class="plan-features">
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> 1 Anuncio Activo</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Soporte Básico</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Búsqueda Ilimitada</li>
+                        <li class="plan-feature"><i class="fas fa-times-circle" style="color: var(--error);"></i> Anuncios Destacados</li>
+                        <li class="plan-feature"><i class="fas fa-times-circle" style="color: var(--error);"></i> Soporte Prioritario</li>
+                    </ul>
+                    <button class="btn btn-primary">Seleccionar Plan</button>
                 </div>
-                <button class="btn-primary">Get Started</button>
-            </div>
-            <div class="plan">
-                <div class="plan-name">Professional</div>
-                <div class="plan-price">$99<span>/month</span></div>
-                <div class="plan-features">
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Everything in Premium</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Exclusive listings access</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Personal broker assistant</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Detailed market analysis</span>
-                    </div>
-                    <div class="plan-feature">
-                        <i class="fas fa-check"></i>
-                        <span>Bidding strategy tools</span>
-                    </div>
+                <div class="plan popular">
+                    <span class="popular-tag">¡Popular!</span>
+                    <h3 class="plan-name">Premium</h3>
+                    <p class="plan-price">$29<span>/mes</span></p>
+                    <ul class="plan-features">
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> 5 Anuncios Activos</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Soporte Estándar</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Anuncios Destacados</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Búsqueda Ilimitada</li>
+                        <li class="plan-feature"><i class="fas fa-times-circle" style="color: var(--error);"></i> Soporte Prioritario</li>
+                    </ul>
+                    <button class="btn btn-primary">Seleccionar Plan</button>
                 </div>
-                <button class="btn-secondary">Get Started</button>
+                <div class="plan">
+                    <h3 class="plan-name">Empresarial</h3>
+                    <p class="plan-price">$99<span>/mes</span></p>
+                    <ul class="plan-features">
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Anuncios Ilimitados</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Soporte Prioritario 24/7</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Anuncios Destacados Premium</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Búsqueda Ilimitada</li>
+                        <li class="plan-feature"><i class="fas fa-check-circle"></i> Integración API</li>
+                    </ul>
+                    <button class="btn btn-primary">Seleccionar Plan</button>
+                </div>
             </div>
         </div>
     </section>
-    
-    <!-- Newsletter -->
+
     <section class="newsletter">
         <div class="container">
-            <h2 class="section-title">Stay Updated</h2>
-            <p>Subscribe to our newsletter for the latest yacht listings, industry news, and special offers.</p>
+            <h2 class="section-title">Suscríbase a Nuestro Boletín</h2>
+            <p>Manténgase actualizado con los últimos anuncios y noticias de la industria marina.</p>
             <form class="newsletter-form">
-                <input type="email" placeholder="Your email address" class="newsletter-input" required>
-                <button type="submit" class="newsletter-button">Subscribe</button>
+                <input type="email" placeholder="Ingrese su correo electrónico" class="newsletter-input">
+                <button type="submit" class="btn newsletter-button">Suscribirse</button>
             </form>
         </div>
     </section>
-    
-    <!-- Footer -->
+
     <footer>
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-about">
-                    <div class="footer-logo">
-                        <img src="https://via.placeholder.com/150x40?text=YachtWorld" alt="YachtWorld Logo">
-                    </div>
-                    <p>The world's leading marketplace for yachts, boats, and marine services. Connecting buyers and sellers globally since 2023.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Buy a Boat</a></li>
-                        <li><a href="#">Sell a Boat</a></li>
-                        <li><a href="#">Boat Rentals</a></li>
-                        <li><a href="#">Auctions</a></li>
-                        <li><a href="#">Marine Store</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
-                    <h3>Contact Info</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Marina Way, Miami, FL 33132, USA</p>
-                    <p><i class="fas fa-phone"></i> +1 (800) 555-1234</p>
-                    <p><i class="fas fa-envelope"></i> info@yachtworld.com</p>
-                    <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM EST</p>
+        <div class="container footer-container">
+            <div class="footer-about">
+                <a href="#" class="logo footer-logo">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM10.99 6h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zm0 4h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zm0 4h2.02c.55 0 1 .45 1 1s-.45 1-1 1h-2.02c-.55 0-1-.45-1-1s.45-1 1-1zM12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                        <path d="M12 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        <circle cx="12" cy="12" r="2"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8z"/>
+                        <path d="M12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+                        <path d="M12 8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        <path d="M12 6c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                        <path d="M12 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        <path d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                        <path d="M12 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        <path d="M12 20c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                        <path d="M12 22c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                        <path d="M12 24c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                    </svg>
+                    Nautilus Waves
+                </a>
+                <p>Su mercado global de confianza para yates y barcos. Conectamos entusiastas marinos en todo el mundo.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 YachtWorld. All rights reserved.</p>
-                <div>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Sitemap</a>
-                </div>
+            <div class="footer-links">
+                <h3>Navegación</h3>
+                <ul>
+                    <li><a href="#">Comprar Yates</a></li>
+                    <li><a href="#">Vender Barcos</a></li>
+                    <li><a href="#">Alquiler de Yates</a></li>
+                    <li><a href="#">Subastas Marinas</a></li>
+                    <li><a href="#">Tienda de Accesorios</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Soporte</h3>
+                <ul>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Mapa del Sitio</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contáctenos</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Marina Blvd, Ciudad Costera, XYZ 12345</p>
+                <p><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@nautiluswaves.com</p>
             </div>
         </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2024 Nautilus Waves. Todos los derechos reservados.</p>
+            <p>Hecho con <i class="fas fa-heart" style="color: var(--error);"></i> por Amantes del Mar</p>
+        </div>
     </footer>
-    
-    <!-- Chat Bubble -->
-    <div class="chat-bubble">
-        <i class="fas fa-comment-dots"></i>
-    </div>
-    
+
+    <a href="#" class="chat-bubble">
+        <i class="fas fa-comments"></i>
+    </a>
+
     <script>
-        // Simple interactivity
         document.addEventListener('DOMContentLoaded', function() {
+            // Hamburger menu toggle
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const mainNav = document.querySelector('.main-nav');
+
+            if (hamburgerMenu && mainNav) {
+                hamburgerMenu.addEventListener('click', function() {
+                    mainNav.classList.toggle('active');
+                });
+            }
+
             // Favorite button toggle
             const favoriteButtons = document.querySelectorAll('.favorite-btn');
             favoriteButtons.forEach(button => {
